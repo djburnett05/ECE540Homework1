@@ -1,0 +1,23 @@
+function computePrecision () % Computes the precision versus base from the values of 1 to 1e-30.
+base = 1; % The base to start with.
+
+matrix = [];
+
+while(base > 1e-30)             % While we have more values to compute,
+
+    precision = PrecisionVersusBase(base); % Find the value for precision.
+    row = [precision, base, precision/base]; % Create a new row in the matrix with the new data.
+    matrix = [matrix; row]; %Add the new row to the matrix.
+    base = base / 2.0;            % Divide the base by two to reduce base.
+
+end 
+
+writematrix(matrix, 'outputMatrix.csv'); % Write the matrix to an output file.
+
+figure;
+loglog(matrix(:,1), matrix(:,2)), xlabel('Base'), ylabel('Precision'), title('Base vs Precision');
+set(gca,'XDir','reverse');           % Reverses Direction of X axis.s
+
+figure;
+loglog(matrix(:,1), matrix(:,3)), xlabel('Base'), ylabel('Precision/Base'), title('Base vs Ratio');
+set(gca,'XDir','reverse');           % Reverses Direction of X axis.
